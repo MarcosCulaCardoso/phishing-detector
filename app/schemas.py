@@ -38,7 +38,8 @@ class Evidence(BaseModel):
 
 class SecurityReport(BaseModel):
     verdict: Verdict
-    confidence: float = Field(ge=0.0, le=1.0)
+    # None means there is no calibrated probability (e.g. rule-based scoring).
+    confidence: float | None = Field(default=None, ge=0.0, le=1.0)
     risk_score: int = Field(ge=0, le=100)
     risk_indicators: list[Evidence] = Field(default_factory=list)
     benign_indicators: list[Evidence] = Field(default_factory=list)
@@ -46,13 +47,13 @@ class SecurityReport(BaseModel):
     recommended_action: Action
 
     def render(self) -> str:
-        lines = [
-            f"Classification: {self.verdict.value.upper()}",
-            f"Confidence: {self.confidence:.0%}",
-            f"Risk score: {self.risk_score}/100",
-            "",
-            "Risk indicators:",
-        ]
+        lines = [f"Classification: {self.verdict.value.upper()}"]
+        if self.confidence is not None:
+            lines.append(f"Confidence: {self.confidence:.0%}")
+            lines.append(f"Risk score: {self.risk_score}/100")
+        else:
+            lines.append(f"Risk score: {self.risk_score}/100 (rule-based, not calibrated)")
+        lines += ["", "Risk indicators:"]
         for ev in self.risk_indicators:
             lines.append(f"  [{ev.kind.value}] ({ev.modality.value}) {ev.statement}")
         lines += ["", f"Reasoning: {self.reasoning}"]

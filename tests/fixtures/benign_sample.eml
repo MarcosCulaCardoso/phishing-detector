@@ -1,0 +1,35 @@
+From: "Example Shop" <orders@shop.example>
+Reply-To: support@shop.example
+To: Test User <user@test.example>
+Subject: Your order #1042 has shipped
+Date: Mon, 05 Oct 2026 10:00:00 -0400
+Message-ID: <order1042@shop.example>
+Authentication-Results: mx.test.example; spf=pass smtp.mailfrom=shop.example; dkim=pass header.d=shop.example
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="MIXED"
+
+--MIXED
+Content-Type: multipart/alternative; boundary="ALT"
+
+--ALT
+Content-Type: text/plain; charset="utf-8"
+
+Hi, thanks for shopping with us. Your order #1042 has shipped and should arrive this week.
+Track it here: https://shop.example/orders/1042
+
+--ALT
+Content-Type: text/html; charset="utf-8"
+
+<html><body><p>Hi, thanks for shopping with us. Your order #1042 has shipped and should arrive this week.</p>
+<p><a href="https://shop.example/orders/1042">Track your order</a></p></body></html>
+
+--ALT--
+
+--MIXED
+Content-Type: application/pdf; name="receipt.pdf"
+Content-Disposition: attachment; filename="receipt.pdf"
+Content-Transfer-Encoding: base64
+
+JVBERi0xLjQK
+
+--MIXED--
