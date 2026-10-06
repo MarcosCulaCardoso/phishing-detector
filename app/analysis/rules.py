@@ -31,7 +31,8 @@ CREDENTIAL_REQUEST = 20  # asks for passwords, account verification, or payment
 URGENCY = 10  # pressure or threats; legitimate mail uses these words too, so low weight
 
 # --- Verdict thresholds ---
-# One strong signal alone -> suspicious; two independent strong signals -> phishing.
+# A rule worth >= 25 reaches suspicious alone; smaller rules need others to add up;
+# two high-weight rules together reach phishing.
 SUSPICIOUS_THRESHOLD = 25
 PHISHING_THRESHOLD = 50
 MAX_SCORE = 100

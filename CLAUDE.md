@@ -14,9 +14,8 @@ Done so far:
 - M1: config, logging, evidence/report schemas
 - M2: MIME email parser (facts only, attachments hashed not stored)
 - M3: static URL extraction and domain analysis (typosquat, homograph, anchor/href mismatch)
-- M4a: dataset ingestion, template-group splits, leakage/source-confound report (synthetic data only)
 
-Next: M4b real corpora, M5 baseline classifiers + evaluation harness, M6 LLM reasoning layer, M7 evidence aggregation, M8 sandboxed screenshots, M9 ablation experiment, then API, demo UI, Docker, README.
+Next: M4a dataset ingestion, template-group splits, leakage/source-confound report (planned; `app/data/` does not exist yet), M4b real corpora, M5 baseline classifiers + evaluation harness, M6 LLM reasoning layer, M7 evidence aggregation, M8 sandboxed screenshots, M9 ablation experiment, then API, demo UI, Docker, README.
 
 ## Structure
 
@@ -26,7 +25,8 @@ Next: M4b real corpora, M5 baseline classifiers + evaluation harness, M6 LLM rea
 - `app/__main__.py`: demo entry point using placeholder data (`python -m app`).
 - `app/parsing/`: `.eml` -> `ParsedEmail`. `models.py`, `html_links.py`, `parser.py`, `__main__.py`.
 - `app/urls/`: static URL analysis. `extract.py` (collect/defang), `analyzer.py` (features + Evidence), `brands.py` (brand list, confusables, shorteners), `models.py`.
-- `app/data/`: ingest labeled corpora to JSONL, group-aware splits, leakage reports, synthetic corpus generator. `__main__` subcommands: `synth`, `ingest`, `report`.
+- `app/analysis/`: rule-based analyzer. `rules.py` (point values + thresholds), `sender.py`, `links.py`, `attachments.py`, `text.py` (rules returning `RuleHit`s), `scoring.py` (sum, cap, verdict), `report.py` (terminal output), `models.py`, `__main__.py`.
+- `app/data/` (planned, M4a; not created yet): ingest labeled corpora to JSONL, group-aware splits, leakage reports, synthetic corpus generator. `__main__` subcommands: `synth`, `ingest`, `report`.
 - `tests/`: pytest suite. `tests/fixtures/` holds synthetic `.eml` files only.
 - `data/raw/`, `data/processed/`, `data/screenshots/`: gitignored. Never commit data.
 - `scripts/`, `docs/`: currently empty; docs will hold architecture and evaluation write-ups.
@@ -42,7 +42,7 @@ python -m pytest tests/test_url_analyzer.py -k typosquat   # targeted run
 python -m app                    # placeholder report demo
 python -m app.parsing tests/fixtures/phishing_sample.eml   # parse -> JSON
 python -m app.urls tests/fixtures/phishing_sample.eml      # URL analysis (defanged output)
-python -m app.data synth && python -m app.data ingest && python -m app.data report
+python -m app.analysis tests/fixtures/phishing_sample.eml  # rule-based verdict + report
 pip install -r requirements.txt
 ```
 
