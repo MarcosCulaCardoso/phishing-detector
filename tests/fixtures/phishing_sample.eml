@@ -1,0 +1,35 @@
+From: "Microsoft Account Team" <security@micros0ft-support.example>
+Reply-To: helpdesk@collect-mail.example
+Return-Path: <bounce@mailer.example>
+To: Marcos Test <marcos@test.example>
+Subject: Urgent: Your account will be suspended
+Date: Mon, 05 Oct 2026 09:00:00 -0400
+Message-ID: <abc123@micros0ft-support.example>
+Authentication-Results: mx.test.example; spf=fail smtp.mailfrom=micros0ft-support.example; dkim=none
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="MIXED"
+
+--MIXED
+Content-Type: multipart/alternative; boundary="ALT"
+
+--ALT
+Content-Type: text/plain; charset="utf-8"
+
+Your account will be suspended in 24 hours. Verify now: http://micros0ft-support.example/login
+
+--ALT
+Content-Type: text/html; charset="utf-8"
+
+<html><body><p>Your account will be suspended in 24 hours.</p>
+<p><a href="http://micros0ft-support.example/login?id=1">https://www.microsoft.com/account</a></p></body></html>
+
+--ALT--
+
+--MIXED
+Content-Type: text/plain; name="invoice.txt"
+Content-Disposition: attachment; filename="invoice.txt"
+Content-Transfer-Encoding: base64
+
+aGVsbG8=
+
+--MIXED--
